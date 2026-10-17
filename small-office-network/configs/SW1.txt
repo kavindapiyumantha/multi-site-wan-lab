@@ -1,0 +1,33 @@
+enable
+configure terminal
+hostname SW1
+vlan 10
+ name ADMIN
+exit
+interface range fastEthernet 0/1 - 2
+ switchport mode access
+ switchport access vlan 10
+ spanning-tree portfast
+exit
+vlan 20
+ name IT
+exit
+interface range fastEthernet 0/3 - 4
+ switchport mode access
+ switchport access vlan 20
+ spanning-tree portfast
+exit
+vlan 30
+ name SALES
+exit
+interface range fastEthernet 0/5 - 6
+ switchport mode access
+ switchport access vlan 30
+ spanning-tree portfast
+exit
+interface gigabitEthernet 0/1
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20,30
+exit
+end
+copy running-config startup-config
