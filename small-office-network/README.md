@@ -1,6 +1,6 @@
 # Small Office Network Architecture & Configuration
 
-**Status: In progress — configuration templates prepared; Packet Tracer implementation and testing pending.**
+**Status: Baseline implemented in Packet Tracer; topology, VLAN, and router interface screenshots available. Security extensions and the .pkt upload are pending.**
 
 An educational Cisco Packet Tracer project to design and configure a small office network with department VLANs, router-on-a-stick inter-VLAN routing, and DHCP. Security controls and simulated internet connectivity are planned extensions.
 
@@ -44,16 +44,16 @@ Addresses .1–.20 in each subnet are reserved; the remaining usable addresses a
 7. Save the topology as `Small_Office_Network.pkt` and upload it to this folder.
 
 ## Validation checklist
-These checks have not yet been performed in Packet Tracer.
+Screenshots confirm VLAN assignments and router interface status. DHCP output and successful connectivity tests were reported by the author during the guided build; ping screenshots are still to be added.
 
-- [ ] `show vlan brief` on SW1 shows the correct access ports.
-- [ ] `show interfaces trunk` on SW1 shows Gi0/1 carrying VLANs 10,20,30.
-- [ ] `show ip interface brief` on R1 shows Gi0/0 and its subinterfaces up/up.
-- [ ] `show ip dhcp binding` on R1 shows the PC leases.
+- [x] `show vlan brief` on SW1 shows the correct access ports.
+- [x] `show interfaces trunk` on SW1 shows Gi0/1 carrying VLANs 10,20,30.
+- [x] `show ip interface brief` on R1 shows Gi0/0 and its subinterfaces up/up.
+- [x] `show ip dhcp binding` on R1 shows the PC leases.
 - [ ] Each PC receives the correct subnet mask, address, and gateway.
 - [ ] Each PC can ping its gateway.
-- [ ] PCs in the same VLAN can ping each other.
-- [ ] PCs in different VLANs can ping each other.
+- [x] PCs in the same VLAN can ping each other.
+- [x] PCs in different VLANs can ping each other.
 - [ ] Save, reopen, and verify the Packet Tracer project.
 
 Use `ipconfig` on each PC to identify its assigned address before testing. An initial ping can time out while ARP resolves; repeat it.
@@ -69,10 +69,32 @@ Planned extensions:
 - [ ] ISP simulation, default route, and NAT/PAT
 - [ ] Positive and negative tests for access restrictions
 
-## Evidence to add
-- `Small_Office_Network.pkt`
-- Topology screenshot
-- DHCP and VLAN verification screenshots
-- Ping results, including expected blocked traffic after ACLs are added
+## Evidence
 
-No completed simulation or successful test results are claimed until evidence is added.
+### Network topology
+![Packet Tracer topology with Admin, IT, and Sales departments](screenshots/network-topology.png)
+
+### VLAN assignments
+VLAN 10 uses Fa0/1–2, VLAN 20 uses Fa0/3–4, and VLAN 30 uses Fa0/5–6.
+![SW1 show vlan brief](screenshots/vlan-assignments.png)
+
+### Router interface status
+Gi0/0 and subinterfaces .10, .20, and .30 are up/up with the expected gateway addresses.
+![R1 show ip interface brief](screenshots/router-interfaces.png)
+
+### DHCP leases
+The following addresses were confirmed in the author's pasted `show ip dhcp binding` output:
+
+| Department | PC1 | PC2 |
+|---|---|---|
+| Admin | 192.168.10.21 | 192.168.10.22 |
+| IT | 192.168.20.21 | 192.168.20.22 |
+| Sales | 192.168.30.21 | 192.168.30.22 |
+
+Reported successful tests: Admin-PC1 to its gateway, Admin-PC1 to Admin-PC2, Admin-PC1 to IT-PC1 and Sales-PC1, and IT-PC1 to Sales-PC1. Ping screenshots have not yet been uploaded.
+
+## Remaining deliverables
+- `Small_Office_Network.pkt`
+- DHCP binding and ping screenshots
+- Save/reopen verification
+- Security extensions and their positive/negative test results
